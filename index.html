@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>DS Pocket - Data Science Roadmap (EDA to DL)</title>
+  
+  <!-- PWA Meta Tags -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0f172a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="DS Pocket">
+
+  <!-- Tailwind CSS & Chart.js -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            slate: {
+              850: '#111827',
+              950: '#070b14'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom mobile scrollbars and touch polish */
+    ::-webkit-scrollbar {
+      width: 4px;
+      height: 4px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    body {
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    pre, code, input {
+      user-select: text;
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex justify-center font-sans antialiased selection:bg-indigo-500 selection:text-white">
+
+  <!-- Mobile Screen Wrapper (App Frame) -->
+  <div class="w-full max-w-md min-h-screen bg-slate-900 border-x border-slate-800 flex flex-col relative shadow-2xl pb-20">
+    
+    <!-- Top App Bar -->
+    <header class="sticky top-0 z-40 bg-slate-900/95 backdrop-blur-md border-b border-slate-800 px-4 py-3 flex flex-col gap-2.5">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-600 to-sky-400 flex items-center justify-center text-white font-bold text-sm shadow-md shadow-indigo-500/20">
+            DS
+          </div>
+          <div>
+            <h1 id="app-title" class="text-sm font-extrabold tracking-tight text-white leading-tight">DS Pocket</h1>
+            <p id="app-subtitle" class="text-[10px] text-slate-400 font-medium">Roadmap Belajar Data Science</p>
+          </div>
+        </div>
+
+        <!-- Language Switcher & Topics Button -->
+        <div class="flex items-center gap-1.5">
+          <div class="flex bg-slate-800 p-0.5 rounded-lg border border-slate-700">
+            <button id="lang-id-btn" onclick="setLanguage('id')" class="px-2 py-0.5 text-[11px] font-bold rounded">🇮🇩 ID</button>
+            <button id="lang-en-btn" onclick="setLanguage('en')" class="px-2 py-0.5 text-[11px] font-bold rounded">🇬🇧 EN</button>
+          </div>
+          <button onclick="openDrawer()" class="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Overall Learning Progress -->
+      <div>
+        <div class="flex justify-between items-center text-[10px] mb-1">
+          <span id="progress-label" class="font-semibold text-slate-300">Progres Belajar: 0/11 (0%)</span>
+          <span class="text-indigo-400 font-mono text-[9px]">EDA ➔ DL</span>
+        </div>
+        <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+          <div id="progress-bar" class="h-full bg-gradient-to-r from-indigo-500 to-emerald-400 transition-all duration-300 rounded-full" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <!-- Horizontal Stage Filter Pills -->
+      <div id="stage-filters" class="flex gap-1.5 overflow-x-auto no-scrollbar py-1 text-xs">
+        <!-- Injected via JavaScript -->
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 p-4 space-y-4">
+      
+      <!-- Current Topic Title Card -->
+      <div class="p-4 rounded-2xl bg-gradient-to-b from-slate-850 to-slate-900 border border-slate-800 shadow-md space-y-2">
+        <div class="flex items-center justify-between gap-2">
+          <span id="current-stage-badge" class="px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wider uppercase bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+            1. EDA
+          </span>
+          <button id="mark-done-btn" onclick="toggleMarkDone()" class="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 border border-slate-700">
+            <span>○</span> <span>Tandai Selesai</span>
+          </button>
+        </div>
+        <h2 id="current-title" class="text-base font-bold text-white tracking-tight leading-snug">
+          Statistik Deskriptif Dasar
+        </h2>
+      </div>
+
+      <!-- Sub-Tabs Navigation (Segmented Control) -->
+      <div class="bg-slate-950/80 rounded-xl p-1 border border-slate-800 flex overflow-x-auto no-scrollbar" id="sub-tabs">
+        <!-- Injected via JavaScript -->
+      </div>
+
+      <!-- Sub-Tab Content Container -->
+      <div id="tab-content" class="min-h-[300px]">
+        <!-- Injected dynamically based on active tab -->
+      </div>
+
+      <!-- PWA Tip Banner -->
+      <div class="p-3 rounded-xl bg-slate-950/60 border border-slate-800/80 text-[11px] text-slate-400 leading-relaxed text-center">
+        <span id="pwa-tip">📱 Tips: Buka menu browser HP & klik "Tambahkan ke Layar Utama" (Add to Home Screen) untuk menjadikannya aplikasi mandiri!</span>
+      </div>
+
+    </main>
+
+    <!-- Bottom Navigation Bar for Mobile -->
+    <nav class="fixed bottom-0 w-full max-w-md bg-slate-900/95 backdrop-blur-md border-t border-slate-800 px-6 py-2.5 flex justify-around items-center z-40">
+      <button onclick="openDrawer()" class="flex flex-col items-center gap-1 text-slate-400 hover:text-indigo-400 transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path></svg>
+        <span class="text-[10px] font-medium">Daftar Modul</span>
+      </button>
+
+      <button onclick="activeTab='sim'; renderTabs(); loadModule(currentModuleId);" class="flex flex-col items-center gap-1 text-indigo-400">
+        <div class="w-9 h-9 rounded-full bg-indigo-600 flex items-center justify-center text-white shadow-lg shadow-indigo-600/40 -mt-4 border-2 border-slate-900">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+        </div>
+        <span class="text-[10px] font-bold">Simulator</span>
+      </button>
+
+      <button onclick="activeTab='code'; renderTabs(); loadModule(currentModuleId);" class="flex flex-col items-center gap-1 text-slate-400 hover:text-indigo-400 transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+        <span class="text-[10px] font-medium">Kode Python</span>
+      </button>
+    </nav>
+
+    <!-- Mobile Drawer Modal (Topics Directory) -->
+    <div id="mobile-drawer" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex flex-col justify-end hidden">
+      <div class="bg-slate-900 border-t border-slate-700 rounded-t-3xl max-h-[85vh] flex flex-col w-full max-w-md mx-auto animate-in slide-in-from-bottom duration-200">
+        <!-- Drawer Header -->
+        <div class="p-4 border-b border-slate-800 flex items-center justify-between">
+          <div>
+            <h3 class="text-sm font-bold text-white">Silabus Lengkap (Roadmap)</h3>
+            <p class="text-[10px] text-slate-400">Pilih materi yang ingin Anda pelajari</p>
+          </div>
+          <button onclick="closeDrawer()" class="p-1 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+          </button>
+        </div>
+
+        <!-- Search Bar inside Drawer -->
+        <div class="p-3 border-b border-slate-800">
+          <input type="text" id="search-input" placeholder="Cari materi..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500">
+        </div>
+
+        <!-- Module List Items -->
+        <div id="module-list-items" class="p-4 space-y-2.5 overflow-y-auto max-h-[60vh]">
+          <!-- Injected via JavaScript -->
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Scripts -->
+  <script src="modules.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

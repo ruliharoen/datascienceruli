@@ -86,11 +86,11 @@
         <!-- Logo & Title -->
         <div class="flex items-center gap-2.5">
           <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-slate-900 to-indigo-800 flex items-center justify-center text-white font-black text-sm shadow-md shadow-indigo-900/20">
-            DS
+            DR
           </div>
           <div>
-            <h1 id="app-title" class="text-sm font-black tracking-tight text-slate-900 leading-tight">DS Pocket</h1>
-            <p id="app-subtitle" class="text-[10px] text-slate-500 font-medium">Panduan Lengkap Data Science</p>
+            <h1 id="app-title" class="text-sm font-black tracking-tight text-slate-900 leading-tight">DS Pocket Ruli</h1>
+            <p id="app-subtitle" class="text-[10px] text-slate-500 font-medium">Panduan Pribadi Data Science</p>
           </div>
         </div>
 
@@ -126,8 +126,23 @@
     </header>
 
     <!-- Main Content Area -->
-    <main class="flex-1 p-4 space-y-4">
+    <main class="flex-1 p-4 space-y-3.5">
       
+      <!-- In-Body Sub-Bab Topic Chips (Always Visible in Main Screen!) -->
+      <div id="subtopic-chips-section" class="bg-white p-3 rounded-2xl border border-slate-200 shadow-xs space-y-2">
+        <div class="flex items-center justify-between text-[11px]">
+          <span class="font-extrabold text-slate-900 flex items-center gap-1.5">
+            <span>📑</span> <span id="subtopic-header-title">Sub-Bab di Bab Ini:</span>
+          </span>
+          <span id="subtopic-counter-badge" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-100">
+            Topik 1/4
+          </span>
+        </div>
+        <div id="subtopic-chips-list" class="flex gap-1.5 overflow-x-auto no-scrollbar py-0.5">
+          <!-- Injected dynamically via JavaScript -->
+        </div>
+      </div>
+
       <!-- Current Topic Header Card -->
       <div class="p-4 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-2">
         <div class="flex items-center justify-between gap-2">

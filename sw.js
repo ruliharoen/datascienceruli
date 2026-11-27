@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ds-pocket-v2';
+const CACHE_NAME = 'ds-pocket-v3';
 const ASSETS = [
   './index.html',
   './manifest.json',

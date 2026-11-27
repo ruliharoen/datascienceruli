@@ -1174,11 +1174,12 @@ Step 5: w = 1.6384, Loss = 4.1943 (Error makin menyusut!)`
 // UI Language Translations for App Shell
 const UI_TEXT = {
   id: {
-    appTitle: "DS Pocket",
-    appSubtitle: "Panduan Lengkap Data Science (EDA s/d Deep Learning)",
+    appTitle: "DS Pocket Ruli",
+    appSubtitle: "Panduan Pribadi Data Science (EDA s/d Deep Learning)",
     searchPlaceholder: "Cari materi (mis: korelasi, outlier, regresi, tree...)",
     allStages: "Semua Bab",
     progressTitle: "Progres Belajar",
+    subtopicHeader: "Sub-Bab di Bab Ini:",
     completed: "Selesai",
     markDone: "Tandai Selesai",
     markedDone: "Selesai Dipelajari ✓",
@@ -1203,11 +1204,12 @@ const UI_TEXT = {
     addToHomeTip: "📱 Tips: Buka menu browser HP & klik 'Tambahkan ke Layar Utama' (Add to Home Screen) untuk menjadikannya aplikasi mandiri!"
   },
   en: {
-    appTitle: "DS Pocket",
-    appSubtitle: "Comprehensive Data Science Roadmap (EDA to Deep Learning)",
+    appTitle: "DS Pocket Ruli",
+    appSubtitle: "Personal Data Science Roadmap (EDA to Deep Learning)",
     searchPlaceholder: "Search topics (e.g. correlation, outlier, regression, tree...)",
     allStages: "All Stages",
     progressTitle: "Learning Progress",
+    subtopicHeader: "Sub-Topics in This Chapter:",
     completed: "Completed",
     markDone: "Mark as Completed",
     markedDone: "Learned ✓",

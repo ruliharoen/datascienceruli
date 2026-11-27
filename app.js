@@ -217,6 +217,48 @@ function loadModule(id) {
   renderTabs();
   renderTabContent(mod);
   renderNavigationButtons(mod);
+  renderSubtopicChips(mod);
+}
+
+// Render In-Body Sub-Bab Topic Chips
+function renderSubtopicChips(mod) {
+  const container = document.getElementById('subtopic-chips-list');
+  const headerTitle = document.getElementById('subtopic-header-title');
+  const counterBadge = document.getElementById('subtopic-counter-badge');
+  if (!container) return;
+
+  if (headerTitle) headerTitle.textContent = t('subtopicHeader');
+
+  // Filter modules in the same stage
+  const stageModules = ROADMAP_DATA.filter(m => m.stage === mod.stage);
+  const currentIndexInStage = stageModules.findIndex(m => m.id === mod.id);
+
+  if (counterBadge) {
+    counterBadge.textContent = `${currentLang === 'id' ? 'Materi' : 'Topic'} ${currentIndexInStage + 1} / ${stageModules.length}`;
+  }
+
+  container.innerHTML = '';
+  stageModules.forEach((m, idx) => {
+    const isActive = m.id === mod.id;
+    const isDone = completedModules.includes(m.id);
+
+    const chip = document.createElement('button');
+    chip.className = `flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[11px] font-bold whitespace-nowrap transition-all border ${
+      isActive
+        ? 'bg-slate-900 text-white border-slate-900 shadow-xs'
+        : isDone
+        ? 'bg-emerald-50 text-emerald-800 border-emerald-200 hover:bg-emerald-100'
+        : 'bg-white text-slate-700 border-slate-200 hover:border-slate-300 hover:bg-slate-50'
+    }`;
+
+    chip.innerHTML = `
+      <span class="${isDone ? 'text-emerald-600 font-extrabold' : ''}">${isDone ? '✓' : (idx + 1) + '.'}</span>
+      <span class="truncate max-w-[140px]">${m.title[currentLang]}</span>
+    `;
+
+    chip.onclick = () => loadModule(m.id);
+    container.appendChild(chip);
+  });
 }
 
 // Render Next / Previous Navigation Buttons

@@ -129,6 +129,12 @@ function renderStageFilters() {
       currentFilterStage = st.num;
       renderStageFilters();
       renderModuleList();
+
+      // Automatically switch to the first module of this selected stage!
+      const firstModuleInStage = ROADMAP_DATA.find(m => m.stage === st.num);
+      if (firstModuleInStage && firstModuleInStage.id !== currentModuleId) {
+        loadModule(firstModuleInStage.id);
+      }
     };
     container.appendChild(btn);
   });
@@ -196,6 +202,12 @@ function loadModule(id) {
   const mod = ROADMAP_DATA.find(m => m.id === id);
   if (!mod) return;
 
+  // Sync active stage filter with current module
+  if (currentFilterStage !== 'all' && currentFilterStage !== mod.stage) {
+    currentFilterStage = mod.stage;
+    renderStageFilters();
+  }
+
   renderModuleList();
 
   document.getElementById('current-stage-badge').textContent = mod.stageName[currentLang];
@@ -204,6 +216,33 @@ function loadModule(id) {
   updateMarkDoneButton();
   renderTabs();
   renderTabContent(mod);
+  renderNavigationButtons(mod);
+}
+
+// Render Next / Previous Navigation Buttons
+function renderNavigationButtons(mod) {
+  const container = document.getElementById('nav-buttons-container');
+  if (!container) return;
+
+  const currentIndex = ROADMAP_DATA.findIndex(m => m.id === mod.id);
+  const prevModule = currentIndex > 0 ? ROADMAP_DATA[currentIndex - 1] : null;
+  const nextModule = currentIndex < ROADMAP_DATA.length - 1 ? ROADMAP_DATA[currentIndex + 1] : null;
+
+  container.innerHTML = `
+    ${prevModule ? `
+      <button onclick="loadModule('${prevModule.id}')" class="flex-1 flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 text-xs font-bold shadow-xs transition-all">
+        <span>←</span>
+        <span class="truncate">${currentLang === 'id' ? 'Sebelumnya' : 'Previous'}</span>
+      </button>
+    ` : '<div class="flex-1"></div>'}
+
+    ${nextModule ? `
+      <button onclick="loadModule('${nextModule.id}')" class="flex-1 flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-900 text-white hover:bg-slate-800 text-xs font-bold shadow-sm transition-all">
+        <span class="truncate">${currentLang === 'id' ? 'Materi Berikutnya' : 'Next Topic'}</span>
+        <span>→</span>
+      </button>
+    ` : '<div class="flex-1"></div>'}
+  `;
 }
 
 function updateMarkDoneButton() {
